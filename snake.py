@@ -1,5 +1,4 @@
 from collections import namedtuple
-from dataclasses import dataclass
 from enum import Enum, auto
 from pygame.locals import *
 import pygame.locals
@@ -28,7 +27,6 @@ class Move(Enum):
     right = auto()
 
 
-@dataclass
 class Graphics:
     __slots__ = ['orig_frames_per_sec',
                  'frames_per_sec',
@@ -71,7 +69,7 @@ def greeting():
     roller([
             RollerLine('Gather The Jedi, Avoid The Sith!', next(idx)),
             RollerLine('', next(idx)),
-            RollerLine('Move With Arrows Or A, W, D, X.', next(idx)),
+            RollerLine('Move With Arrows Or A, W, D, S.', next(idx)),
             RollerLine('Adjust Speed With - +', next(idx)),
             RollerLine('The Sith Cuts The Snake.', next(idx)),
             RollerLine('', next(idx)),
@@ -101,7 +99,6 @@ def goodbye(score):
           )
 
 
-@dataclass
 class RollerLine:
     __slots__ = ['txt', 'font', 'surf', 'rect']
 
@@ -251,7 +248,7 @@ def get_next_event(direction = None):
                 if (Move.up != direction != Move.down):
                     if event.key in (K_UP, K_w):
                         return Move.up
-                    if event.key in (K_DOWN, K_x):
+                    if event.key in (K_DOWN, K_s):
                         return Move.down
                 if event.key == K_EQUALS:
                     return Move.speed_up
