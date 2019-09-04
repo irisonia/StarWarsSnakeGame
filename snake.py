@@ -1,5 +1,4 @@
 from collections import namedtuple
-from dataclasses import dataclass
 from enum import Enum, auto
 from pygame.locals import *
 import pygame.locals
@@ -28,7 +27,6 @@ class Move(Enum):
     right = auto()
 
 
-@dataclass
 class Graphics:
     __slots__ = ['orig_frames_per_sec',
                  'frames_per_sec',
@@ -101,7 +99,6 @@ def goodbye(score):
           )
 
 
-@dataclass
 class RollerLine:
     __slots__ = ['txt', 'font', 'surf', 'rect']
 
