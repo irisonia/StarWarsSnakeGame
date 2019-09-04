@@ -12,8 +12,7 @@ Adjust Snake's speed: '+' and '-'.
 May The Force Be With You.<br>
 :heart::heart::heart:
 
-To install:
-(Note: There is a different version for Ubunto/Debian, see below)
+To install (Note: There is a different version for Ubunto/Debian, see below):
 ```
 git clone https://github.com/irisonia/StarWarsSnakeGame.git
 python3 -m venv .env
