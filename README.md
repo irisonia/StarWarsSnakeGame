@@ -12,7 +12,7 @@ Adjust Snake's speed: '+' and '-'.
 May The Force Be With You.<br>
 :heart::heart::heart:
 
-To install (Note: There is a different version for Ubunto/Debian, see below):
+To install (See note below for Ubuntu/Debian):
 ```
 git clone https://github.com/irisonia/StarWarsSnakeGame.git
 cd StarWarsSnakeGame
@@ -21,14 +21,9 @@ source .env/bin/activate
 pip install pygame
 ```
 
-To install on Ubunto/Debian:
+To install on Ubunto/Debian, you may need the following command after the ```cd``` command:
 ```
-git clone https://github.com/irisonia/StarWarsSnakeGame.git
-cd StarWarsSnakeGame
 sudo apt-get install python3-venv
-python3 -m venv .env
-source .env/bin/activate
-pip install pygame
 ```
 
 and then to run
