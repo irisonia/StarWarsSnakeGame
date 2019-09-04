@@ -12,3 +12,16 @@ Adjust Snake's speed: '+' and '-'.
 May The Force Be With You.<br>
 :heart::heart::heart:
 
+
+To install:
+```
+git clone https://github.com/irisonia/StarWarsSnakeGame.git
+python -m venv .env
+source .env/bin/activate
+pip install pygame
+```
+
+and then to run
+```
+python -m snake
+```
