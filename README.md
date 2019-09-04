@@ -16,6 +16,7 @@ May The Force Be With You.<br>
 To install:
 ```
 git clone https://github.com/irisonia/StarWarsSnakeGame.git
+cd StarWarsSnakeGame/
 python3 -m venv .env
 source .env/bin/activate
 pip install pygame
