@@ -15,6 +15,7 @@ May The Force Be With You.<br>
 To install (Note: There is a different version for Ubunto/Debian, see below):
 ```
 git clone https://github.com/irisonia/StarWarsSnakeGame.git
+cd StarWarsSnakeGame
 python3 -m venv .env
 source .env/bin/activate
 pip install pygame
@@ -23,7 +24,9 @@ pip install pygame
 To install on Ubunto/Debian:
 ```
 git clone https://github.com/irisonia/StarWarsSnakeGame.git
+cd StarWarsSnakeGame
 sudo apt-get install python3-venv
+python3 -m venv .env
 source .env/bin/activate
 pip install pygame
 ```
