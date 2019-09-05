@@ -28,5 +28,5 @@ sudo apt-get install python3-venv
 
 and then to run
 ```
-python -m snake
+python3 -m snake
 ```
