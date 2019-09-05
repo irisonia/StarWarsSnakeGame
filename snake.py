@@ -63,62 +63,58 @@ def main():
         goodbye(score)
         _graphic_globals.frames_per_sec = _graphic_globals.orig_frames_per_sec
 
-
 def greeting():
-    idx = iter(range(9))
-    roller([
-            RollerLine('Gather The Jedi, Avoid The Sith!', next(idx)),
-            RollerLine('', next(idx)),
-            RollerLine('Move With Arrows Or A, W, D, S.', next(idx)),
-            RollerLine('Adjust Speed With - +', next(idx)),
-            RollerLine('The Sith Cuts The Snake.', next(idx)),
-            RollerLine('', next(idx)),
-            RollerLine('May The Force Be With You...', next(idx)),
-            RollerLine('', next(idx)),
-            RollerLine("Press Any Key To Start", next(idx))
-           ]
-          )
+    lines = ['Gather The Jedi, Avoid The Sith!',
+             '',
+             'Move With Arrows Or A, W, D, S.',
+             'Adjust Speed With - +',
+             'The Sith Cuts The Snake.',
+             '',
+             'May The Force Be With You...',
+             '',
+             " Press Any Key To Start"
+            ]
+    roller(lines)
 
 
 def goodbye(score):
-    strs = ["You Are Still A Padawan, You Will Improve Soon!",
-            "Good Game!",
-            "Well Done!",
-            "You Seem To Be Force Sensitive...",
-            "Wow!! The Force Is Very Strong With You!"]
+    evaluation_strs = ["You Are Still A Padawan, You Will Improve Soon!",
+                       "Good Game!",
+                       "Well Done!",
+                       "You Seem To Be Force Sensitive...",
+                       "Wow!! The Force Is Very Strong With You!"]
     score_str = (score > 9) + (score > 49) + (score > 299) + (score > 999)
-    idx = iter(range(5))
-    roller([
-            RollerLine(f'{strs[score_str]}', next(idx)),
-            RollerLine('', next(idx)),
-            RollerLine(f'You earned {score} point{"" if score == 1 else "s"}'
-                       f'{"." if score < 300 else "!"}', next(idx)),
-            RollerLine('', next(idx)),
-            RollerLine("Press Any Key...", next(idx))
-           ]
-          )
-
-
-class RollerLine:
-    __slots__ = ['txt', 'font', 'surf', 'rect']
-
-    def __init__(self, txt, line_idx):
-        self.txt = txt
-        self.font = pygame.font.Font('fonts/verdana.ttf',
-                                     24 if line_idx != 0 else 28)
-        self.surf = self.font.render(self.txt, True, Color.yellow.value)
-        self.rect = self.surf.get_rect()
-        self.init_rect(line_idx)
-
-    def init_rect(self, line_idx):
-        global _graphic_globals
-        self.rect.center = (_graphic_globals.window_width / 2,
-                            _graphic_globals.window_height
-                              - (self.rect.height * -(line_idx + 1)))
+    lines = [f'{evaluation_strs[score_str]}',
+             '',
+             f'You earned {score} point{"" if score == 1 else "s"}.'
+             '',
+             'Press Any Key...'
+            ]
+    roller(lines)
 
 
 def roller(lines):
     global _graphic_globals
+
+    class RollerLine:
+        __slots__ = ['txt', 'font', 'surf', 'rect']
+
+        def __init__(self, txt, line_idx):
+            self.txt = txt
+            self.font = pygame.font.Font('fonts/verdana.ttf',
+                                         24 if line_idx != 0 else 28)
+            self.surf = self.font.render(self.txt, True, Color.yellow.value)
+            self.rect = self.surf.get_rect()
+            self.init_rect(line_idx)
+
+        def init_rect(self, line_idx):
+            global _graphic_globals
+            self.rect.center = (_graphic_globals.window_width / 2,
+                                _graphic_globals.window_height
+                                - (self.rect.height * -(line_idx + 1)))
+
+    idx = iter(range(len(lines)))
+    lines = [RollerLine(line, next(idx)) for line in lines]
 
     next_move = get_next_event()
     while next_move is None:
