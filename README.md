@@ -21,7 +21,7 @@ source .env/bin/activate
 pip install pygame
 ```
 
-To install on Ubunto/Debian, you may need the following command after the ```cd``` command:
+To install on Ubuntu/Debian, you may need the following command after the ```cd``` command:
 ```
 sudo apt-get install python3-venv
 ```
