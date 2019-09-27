@@ -41,6 +41,8 @@ class Graphics:
         self.window_height = 675
         self.cell_border_sz = 45
         self.game_surf = None
+
+
 _graphic_globals = Graphics()
 
 _Edible = namedtuple('Edible', ('coords', 'pic'))
@@ -63,6 +65,7 @@ def main():
         goodbye(score)
         _graphic_globals.frames_per_sec = _graphic_globals.orig_frames_per_sec
 
+
 def greeting():
     lines = ['Gather The Jedi, Avoid The Sith!',
              '',
@@ -73,7 +76,7 @@ def greeting():
              'May The Force Be With You...',
              '',
              " Press Any Key To Start"
-            ]
+             ]
     roller(lines)
 
 
@@ -89,7 +92,7 @@ def goodbye(score):
              f'You earned {score} point{"" if score == 1 else "s"}.'
              '',
              'Press Any Key...'
-            ]
+             ]
     roller(lines)
 
 
@@ -137,7 +140,7 @@ def game():
 
     x, y = get_rand_coords(None)
     x = min(x, _graphic_globals.window_width
-               - (5 * _graphic_globals.cell_border_sz))
+            - (5 * _graphic_globals.cell_border_sz))
     snake = [(x, y),
              (x - _graphic_globals.cell_border_sz, y),
              (x - (2 * _graphic_globals.cell_border_sz), y)]
@@ -156,7 +159,7 @@ def game():
         if not is_snake_legal(snake):
             return score
 
-        if move in(Move.speed_up, Move.speed_down):
+        if move in (Move.speed_up, Move.speed_down):
             _graphic_globals.frames_per_sec += move.value
             _graphic_globals.frames_per_sec = (
                 max(1, _graphic_globals.frames_per_sec))
@@ -181,17 +184,19 @@ def game():
 def get_pics():
     def pics(c, n):
         return list(map(make_pic, map(lambda i: c + str(i + 1), range(n))))
+
     def make_pic(x):
         return pygame.transform.scale(
             pygame.image.load('/'.join(['images', '.'.join([x, 'gif'])])),
             (_graphic_globals.cell_border_sz - 2,
              _graphic_globals.cell_border_sz - 2
-            )
+             )
         )
-    return (pics('j', 5), pics('s', 5))
+
+    return pics('j', 5), pics('s', 5)
 
 
-def get_edibles(snake, jedi, sith, jedi_pics, sith_pics):
+def get_edibles(snake, _, sith, jedi_pics, sith_pics):
     global _graphic_globals
 
     new_jedi = _Edible(get_rand_coords(snake), random.choice(jedi_pics))
@@ -204,7 +209,7 @@ def get_edibles(snake, jedi, sith, jedi_pics, sith_pics):
         while new_sith.coords == new_jedi.coords:
             new_sith = _Edible(get_rand_coords(snake), new_sith.pic)
 
-    return (new_jedi, new_sith)
+    return new_jedi, new_sith
 
 
 def get_rand_coords(snake):
@@ -212,21 +217,24 @@ def get_rand_coords(snake):
 
     def rand_coords():
         return (random.randrange(get_rand_coords.cells_in_window_width)
-                                 * _graphic_globals.cell_border_sz,
+                * _graphic_globals.cell_border_sz,
                 random.randrange(get_rand_coords.cells_in_window_height)
-                                 * _graphic_globals.cell_border_sz)
+                * _graphic_globals.cell_border_sz)
+
     coords = rand_coords()
     if snake:
         while coords in snake:
             coords = rand_coords()
     return coords
+
+
 get_rand_coords.cells_in_window_width = \
     _graphic_globals.window_width // _graphic_globals.cell_border_sz
 get_rand_coords.cells_in_window_height = \
     _graphic_globals.window_height // _graphic_globals.cell_border_sz
 
 
-def get_next_event(direction = None):
+def get_next_event(direction=None):
     global _graphic_globals
 
     for event in pygame.event.get():
@@ -236,12 +244,12 @@ def get_next_event(direction = None):
                     return Move.quit_game
                 if not direction:
                     return event
-                if (Move.left != direction != Move.right):
+                if Move.left != direction != Move.right:
                     if event.key in (K_LEFT, K_a):
                         return Move.left
                     if event.key in (K_RIGHT, K_d):
                         return Move.right
-                if (Move.up != direction != Move.down):
+                if Move.up != direction != Move.down:
                     if event.key in (K_UP, K_w):
                         return Move.up
                     if event.key in (K_DOWN, K_s):
@@ -275,7 +283,7 @@ def calc_new_head_coords(snake, direction):
     elif direction == Move.right:
         newx += _graphic_globals.cell_border_sz
 
-    return (newx, newy)
+    return newx, newy
 
 
 def redraw(snake, jedi, sith, score):
@@ -293,7 +301,7 @@ def draw_score(score):
     global _graphic_globals
 
     font = pygame.font.Font('fonts/verdana.ttf', 24)
-    score_surf = font.render('Score: %s' % (score), True, Color.blue.value)
+    score_surf = font.render('Score: %s' % score, True, Color.blue.value)
     score_rect = score_surf.get_rect()
     _graphic_globals.game_surf.blit(score_surf, score_rect)
 
@@ -301,19 +309,21 @@ def draw_score(score):
 def draw_snake(snake):
     global _graphic_globals
 
-    def draw_cell(i):
-        draw_snake.cell_frame.topleft = snake[i]
+    def draw_cell(cell_idx):
+        draw_snake.cell_frame.topleft = snake[cell_idx]
         pygame.draw.rect(_graphic_globals.game_surf,
                          Color.blue.value,
                          draw_snake.cell_frame)
 
     draw_cell(0)
-    for i in range(1, len(snake)):
-        draw_cell(i)
-        draw_snake.inner_cell.topleft = (snake[i][0] + 1, snake[i][1] + 1)
+    for cell_idx in range(1, len(snake)):
+        draw_cell(cell_idx)
+        draw_snake.inner_cell.topleft = (snake[cell_idx][0] + 1, snake[cell_idx][1] + 1)
         pygame.draw.rect(_graphic_globals.game_surf,
                          Color.black.value,
                          draw_snake.inner_cell)
+
+
 draw_snake.cell_frame = pygame.Rect(0,
                                     0,
                                     _graphic_globals.cell_border_sz,
@@ -341,6 +351,8 @@ def draw_edibles(jedi, sith):
         _graphic_globals.game_surf.blit(sith.pic,
                                         (sith.coords[0] + 1,
                                          sith.coords[1] + 1))
+
+
 draw_edibles.jedi_frame = pygame.Rect(0,
                                       0,
                                       _graphic_globals.cell_border_sz,
